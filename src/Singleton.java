@@ -1,20 +1,23 @@
 public class Singleton {
+    private static Singleton instance;
 
     private Singleton() {
         // Prevents external instantiation
     }
 
 
-    private static final class InstanceHolder {
-        private static final Singleton instance = new Singleton();
-    }
-
     // Singleton double check
     public static Singleton getInstance() {
 
-        // 1st check
-        // 2nd check
-        return InstanceHolder.instance;
+        if (instance == null) { // 1st check
+
+            synchronized (Singleton.class) {
+                if (instance == null) { // 2nd check
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
     }
 
     // Method to demonstrate functionality
